@@ -1,0 +1,113 @@
+{
+  "id": "pour-bottles",
+  "title": "How To Pour Bottles for Patients",
+  "category": "Methasoft",
+  "description": "Ensure methadone take-home bottles are prepared, labeled, and sealed accurately and safely in accordance with clinic and regulatory standards.",
+  "lastUpdated": "2026-04-07",
+  "sections": [
+    {
+      "id": "sec1",
+      "title": "Step-by-Step Instructions",
+      "steps": [
+        {
+          "id": "step1",
+          "title": "Open Methasoft",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Launch the Methasoft application on your workstation.</p>"
+        },
+        {
+          "id": "step2",
+          "title": "Access Daily Pour",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Click <strong>Inventory</strong> &rarr; <strong>Prepare Daily Pour</strong>.</p>"
+        },
+        {
+          "id": "step3",
+          "title": "Select the Correct Date",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Choose the day you would like to pour bottles for. Ensure both <strong>Start Date</strong> and <strong>End Date</strong> are the same.</p><p><em>Example:</em> To pour bottles for 11/04/2025, both dates should be 11/04/2025.</p>"
+        },
+        {
+          "id": "step4",
+          "title": "Select the Patient",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Locate the patient from the list.</p>"
+        },
+        {
+          "id": "step5",
+          "title": "Select Bottles to Pour",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Click on the bottles assigned for that date.</p>"
+        },
+        {
+          "id": "step6",
+          "title": "Verify Dose and Volume",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Confirm the correct dose (in mg) and volume (in mL) for each bottle.</p>"
+        },
+        {
+          "id": "step7",
+          "title": "Pour Methadone",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Using a calibrated measuring device, pour the exact amount of methadone into the bottle.</p>"
+        },
+        {
+          "id": "step8",
+          "title": "Add Cherry Flavoring",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Add flavoring if required per clinic protocol.</p>"
+        },
+        {
+          "id": "step9",
+          "title": "Seal the Bottle",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Securely cap each bottle to prevent leakage.</p>"
+        },
+        {
+          "id": "step10",
+          "title": "Apply the Label",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Attach the pre-printed label to the bottle. Ensure it matches the patient name, dose, and date.</p>"
+        },
+        {
+          "id": "step11",
+          "title": "Verify Label Information",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Double-check that all label details are correct.</p>"
+        },
+        {
+          "id": "step12",
+          "title": "Document in Methasoft",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Mark the bottle as poured in the system.</p>"
+        },
+        {
+          "id": "step13",
+          "title": "Store Properly",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Place sealed, labeled bottles in the designated storage area.</p>"
+        },
+        {
+          "id": "step14",
+          "title": "Clean Work Area",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Wipe down the pouring station and dispose of any waste properly.</p>"
+        }
+      ]
+    }
+  ]
+}
