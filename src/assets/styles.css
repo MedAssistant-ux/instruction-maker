@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Custom styles for the app */
+.annotation-canvas-container {
+  position: relative;
+  overflow: hidden;
+  background: #1e1e2e;
+  border-radius: 0.5rem;
+}
+
+.tiptap-editor .ProseMirror {
+  min-height: 80px;
+  padding: 12px;
+  outline: none;
+}
+
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #6b7280;
+  pointer-events: none;
+  height: 0;
+}

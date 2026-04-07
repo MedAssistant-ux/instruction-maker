@@ -1,0 +1,70 @@
+{
+  "id": "receive-methadone",
+  "title": "How To Receive Methadone",
+  "category": "Pharmacy",
+  "description": "Methadone ordering and receiving procedures including Express222, shipment verification, and Methasoft entry.",
+  "lastUpdated": "2026-04-07",
+  "sections": [
+    {
+      "id": "sec1",
+      "title": "Order Methadone",
+      "steps": [
+        {
+          "id": "step1",
+          "title": "Create the Order in Express222",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<ol><li>Go to <a href=\"https://www.express222.com/\">https://www.express222.com/</a></li><li>Log in</li><li>Click <strong>Create, Send, and Manage e222 Forms</strong></li><li>Select <strong>PAI HOLDINGS</strong> and click <strong>Select and Continue</strong></li><li>Click <strong>Create New Order</strong></li><li>Select <strong>Methadone HCL 10mg/mL Oral Solution Cherry</strong></li><li>Enter the Quantity needed</li><li>Click <strong>Save Form and Continue</strong></li><li>Click <strong>Save and Exit Without Signing</strong></li></ol>"
+        },
+        {
+          "id": "step2",
+          "title": "Request Signature",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Email Ann Jamison at <a href=\"mailto:Ann@marichealth.com\">Ann@marichealth.com</a> so she can review and sign the order.</p>"
+        }
+      ]
+    },
+    {
+      "id": "sec2",
+      "title": "Receive Methadone Shipment",
+      "steps": [
+        {
+          "id": "step3",
+          "title": "Inspect the Shipment",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<ul><li>Check for damage</li><li>Verify seal is intact</li><li>Confirm quantity matches the order</li></ul>"
+        },
+        {
+          "id": "step4",
+          "title": "Sign the Delivery Receipt",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>Sign and date the delivery documentation.</p>"
+        },
+        {
+          "id": "step5",
+          "title": "Complete the Shipment Form",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<ol><li>Go to the emailmeform URL</li><li>Fill out using master record info</li><li>Scan signed paper and attach</li><li>Rename file using the format given</li></ol>"
+        },
+        {
+          "id": "step6",
+          "title": "Add Medication to Methasoft",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<ol><li>Open Methasoft</li><li>Click <strong>Inventory</strong></li><li>Click <strong>Add Bulk Inventory</strong></li><li>Click <strong>Add</strong></li><li>Enter number of bottles received</li><li>Enter Lot number</li><li>Enter Starting number</li><li>Ensure <strong>Auto Generate Bottle Number</strong> is selected</li></ol>"
+        },
+        {
+          "id": "step7",
+          "title": "Print Bottle Sign-Out Sheet",
+          "screenshots": [],
+          "annotations": [],
+          "directionHtml": "<p>In Methasoft, print the sign-out sheet for the received inventory.</p>"
+        }
+      ]
+    }
+  ]
+}
