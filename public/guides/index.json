@@ -1,34 +1,38 @@
 [
   {
-    "id": "pour-bottles",
-    "title": "How To Pour Bottles for Patients",
+    "id": "how-to-pour-bottles",
+    "title": "How To Pour Bottles",
     "category": "Methasoft",
-    "description": "Ensure methadone take-home bottles are prepared, labeled, and sealed accurately and safely.",
+    "description": "How to pour bottles for patients.",
     "lastUpdated": "2026-04-07",
-    "stepCount": 14
+    "type": "pdf",
+    "pdfPath": "pdfs/How To Pour Bottles.pdf"
   },
   {
-    "id": "print-labels",
-    "title": "How To Print Labels Manually",
+    "id": "how-to-print-manually-label",
+    "title": "How To Print Manually Label",
     "category": "Methasoft",
-    "description": "Step-by-step instructions for manually generating and printing individual patient labels in Methasoft.",
+    "description": "Manually printing labels in Methasoft.",
     "lastUpdated": "2026-04-07",
-    "stepCount": 6
+    "type": "pdf",
+    "pdfPath": "pdfs/How To Print Manually Label.pdf"
   },
   {
-    "id": "receive-methadone",
+    "id": "how-to-receive-methadone",
     "title": "How To Receive Methadone",
     "category": "Pharmacy",
-    "description": "Methadone ordering and receiving procedures including Express222, shipment verification, and Methasoft entry.",
+    "description": "Methadone ordering and receiving procedures.",
     "lastUpdated": "2026-04-07",
-    "stepCount": 15
+    "type": "pdf",
+    "pdfPath": "pdfs/How To Receive Methadone.pdf"
   },
   {
     "id": "label-printer-troubleshooting",
     "title": "Label Printer Troubleshooting",
     "category": "Equipment",
-    "description": "Troubleshooting guide for DYMO LabelWriter printers including setup, maintenance, and common issues.",
+    "description": "Troubleshooting guide for DYMO LabelWriter printers.",
     "lastUpdated": "2026-04-07",
-    "stepCount": 10
+    "type": "pdf",
+    "pdfPath": "pdfs/Label Printer Trouble shooting.pdf"
   }
 ]

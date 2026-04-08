@@ -11,7 +11,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import UnderlineExt from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
-import { createEmptyGuide, fetchGuide, saveDraft, loadDraft } from '../lib/guideStore'
+import { createEmptyGuide, fetchGuide, saveDraft, loadDraft, publishGuide, loadPublishedGuide } from '../lib/guideStore'
 
 const TOOLS = [
   { id: 'select', label: 'Select', icon: MousePointer2 },
@@ -80,13 +80,19 @@ export default function Editor() {
   // Load guide
   useEffect(() => {
     if (id) {
-      const draft = loadDraft(id)
-      if (draft) {
-        setGuide(draft)
+      // Check published first, then drafts, then fetch
+      const published = loadPublishedGuide(id)
+      if (published) {
+        setGuide(published)
       } else {
-        fetchGuide(id)
-          .then(setGuide)
-          .catch(() => setGuide(createEmptyGuide('Untitled Guide')))
+        const draft = loadDraft(id)
+        if (draft) {
+          setGuide(draft)
+        } else {
+          fetchGuide(id)
+            .then(setGuide)
+            .catch(() => setGuide(createEmptyGuide('Untitled Guide')))
+        }
       }
     } else {
       setGuide(createEmptyGuide('Untitled Guide'))
@@ -312,7 +318,10 @@ export default function Editor() {
               Save Draft
             </button>
             <button
-              onClick={() => { saveDraft(guide); alert('Published! (placeholder)') }}
+              onClick={() => {
+                publishGuide(guide)
+                navigate('/')
+              }}
               className="flex items-center gap-1.5 px-4 py-1.5 text-sm bg-blue-600 hover:bg-blue-500
                          text-white rounded-lg transition-colors font-medium"
             >

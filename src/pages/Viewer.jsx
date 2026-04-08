@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Edit, ChevronDown, List } from 'lucide-react'
-import { fetchGuide } from '../lib/guideStore'
+import { fetchGuideIndex, fetchGuide, loadPublishedGuide } from '../lib/guideStore'
 import ExportButtons from '../components/ExportButtons'
 
 export default function Viewer() {
@@ -13,9 +13,34 @@ export default function Viewer() {
   const contentRef = useRef(null)
 
   useEffect(() => {
-    fetchGuide(id)
-      .then(data => { setGuide(data); setLoading(false) })
-      .catch(() => setLoading(false))
+    async function loadGuide() {
+      // First check localStorage published guides
+      const published = loadPublishedGuide(id)
+      if (published) {
+        setGuide(published)
+        setLoading(false)
+        return
+      }
+
+      // Then check static guide index for PDF guides
+      try {
+        const index = await fetchGuideIndex()
+        const entry = index.find(g => g.id === id)
+        if (entry && entry.type === 'pdf') {
+          setGuide(entry)
+          setLoading(false)
+          return
+        }
+      } catch (e) {}
+
+      // Try fetching as JSON guide
+      try {
+        const data = await fetchGuide(id)
+        setGuide(data)
+      } catch (e) {}
+      setLoading(false)
+    }
+    loadGuide()
   }, [id])
 
   function scrollToStep(stepId) {
@@ -43,6 +68,43 @@ export default function Viewer() {
     )
   }
 
+  // PDF viewer
+  if (guide.type === 'pdf') {
+    const BASE = import.meta.env.BASE_URL
+    // pdfPath is for static guides, pdfDataUrl for user-uploaded
+    const pdfSrc = guide.pdfDataUrl || `${BASE}${guide.pdfPath}`
+
+    return (
+      <div className="min-h-screen bg-gray-950 flex flex-col">
+        {/* Top bar */}
+        <header className="border-b border-gray-800 bg-gray-950/80 backdrop-blur-sm sticky top-0 z-20 shrink-0">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate('/')}
+                className="p-2 text-gray-400 hover:text-gray-100 hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <ArrowLeft size={20} />
+              </button>
+              <h1 className="text-lg font-semibold text-gray-100 truncate">{guide.title}</h1>
+            </div>
+          </div>
+        </header>
+
+        {/* PDF embed */}
+        <div className="flex-1 p-4">
+          <iframe
+            src={pdfSrc}
+            title={guide.title}
+            className="w-full h-full min-h-[calc(100vh-5rem)] rounded-lg border border-gray-800"
+            style={{ background: 'white' }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  // Standard guide viewer
   const tocContent = (
     <nav className="space-y-2">
       {guide.sections?.map(section => (
