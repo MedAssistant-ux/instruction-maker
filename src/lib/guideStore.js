@@ -42,6 +42,8 @@ export function deleteDraft(id) {
 
 export function publishGuide(guide) {
   guide.lastUpdated = new Date().toISOString().split('T')[0]
+  guide.version = (guide.version || 0) + 1
+  guide.lastEdited = new Date().toISOString()
   localStorage.setItem(`guide-${guide.id}`, JSON.stringify(guide))
   // Remove draft if it exists
   localStorage.removeItem(`draft-${guide.id}`)

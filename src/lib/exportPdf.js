@@ -14,91 +14,141 @@ export async function exportToPdf(guide) {
   const contentWidth = pageWidth - margin * 2
   let y = margin
 
+  // Colors
+  const blue = [30, 64, 175]
+  const lightBlue = [59, 130, 246]
+  const darkGray = [60, 60, 60]
+  const medGray = [120, 120, 120]
+  const ruleGray = [200, 200, 200]
+
   // Helper: add new page if needed
   function checkPage(needed = 20) {
     if (y + needed > pageHeight - margin) {
       doc.addPage()
       y = margin
-      addFooter()
     }
   }
 
-  // Helper: add page number footer
-  function addFooter() {
-    const pageCount = doc.getNumberOfPages()
-    doc.setFontSize(8)
-    doc.setTextColor(150)
-    doc.text(`Page ${pageCount}`, pageWidth / 2, pageHeight - 10, { align: 'center' })
-    doc.setTextColor(0)
+  // Helper: draw a horizontal rule
+  function drawRule() {
+    doc.setDrawColor(...ruleGray)
+    doc.setLineWidth(0.3)
+    doc.line(margin, y, margin + contentWidth, y)
+    y += 4
   }
 
-  // Title page
+  // Helper: draw a numbered circle badge
+  function drawStepBadge(x, yPos, number) {
+    const radius = 4.5
+    // Filled blue circle
+    doc.setFillColor(...lightBlue)
+    doc.circle(x + radius, yPos - 2.5, radius, 'F')
+    // White number text centered in circle
+    doc.setFontSize(9)
+    doc.setTextColor(255, 255, 255)
+    doc.setFont(undefined, 'bold')
+    doc.text(String(number), x + radius, yPos - 1.5, { align: 'center' })
+  }
+
+  // Helper: draw section header with colored left border
+  function drawSectionHeader(text) {
+    // Colored left border bar
+    doc.setFillColor(...blue)
+    doc.rect(margin, y - 5, 3, 8, 'F')
+    // Section title
+    doc.setFontSize(18)
+    doc.setTextColor(...blue)
+    doc.setFont(undefined, 'bold')
+    doc.text(text, margin + 7, y)
+    y += 4
+    // Underline
+    doc.setDrawColor(...blue)
+    doc.setLineWidth(0.5)
+    doc.line(margin, y, margin + contentWidth, y)
+    y += 8
+  }
+
+  // --- Title page ---
   y = pageHeight / 3
   doc.setFontSize(28)
-  doc.setTextColor(30, 64, 175) // blue
+  doc.setTextColor(...blue)
+  doc.setFont(undefined, 'bold')
   doc.text(guide.title, pageWidth / 2, y, { align: 'center' })
   y += 15
   doc.setFontSize(12)
-  doc.setTextColor(100)
+  doc.setTextColor(...medGray)
+  doc.setFont(undefined, 'normal')
   doc.text(guide.description || '', pageWidth / 2, y, { align: 'center', maxWidth: contentWidth })
   y += 20
   doc.setFontSize(10)
   doc.text(`Last updated: ${guide.lastUpdated || 'N/A'}`, pageWidth / 2, y, { align: 'center' })
-  addFooter()
 
-  // Table of Contents page
+  // --- Table of Contents page ---
   doc.addPage()
   y = margin
   doc.setFontSize(20)
-  doc.setTextColor(30, 64, 175)
+  doc.setTextColor(...blue)
+  doc.setFont(undefined, 'bold')
   doc.text('Table of Contents', margin, y)
-  y += 12
-  doc.setFontSize(11)
-  doc.setTextColor(50)
+  y += 4
+  doc.setDrawColor(...blue)
+  doc.setLineWidth(0.5)
+  doc.line(margin, y, margin + 60, y)
+  y += 10
 
   let sectionNum = 0
   for (const section of guide.sections) {
     sectionNum++
+    doc.setFontSize(12)
     doc.setFont(undefined, 'bold')
+    doc.setTextColor(...darkGray)
     doc.text(`${sectionNum}. ${section.title}`, margin, y)
     y += 7
     let stepNum = 0
     for (const step of section.steps) {
       stepNum++
+      doc.setFontSize(10)
       doc.setFont(undefined, 'normal')
-      doc.text(`   ${sectionNum}.${stepNum}  ${step.title}`, margin + 5, y)
+      doc.setTextColor(...medGray)
+      doc.text(`${sectionNum}.${stepNum}  ${step.title}`, margin + 8, y)
       y += 6
       checkPage(10)
     }
-    y += 3
+    y += 4
   }
-  addFooter()
 
-  // Content pages
+  // --- Content pages ---
   sectionNum = 0
   for (const section of guide.sections) {
     sectionNum++
     doc.addPage()
     y = margin
-    addFooter()
 
-    // Section header
-    doc.setFontSize(18)
-    doc.setTextColor(30, 64, 175)
-    doc.text(`${sectionNum}. ${section.title}`, margin, y)
-    y += 12
+    // Section header with colored left border
+    drawSectionHeader(`${sectionNum}. ${section.title}`)
 
     let stepNum = 0
     for (const step of section.steps) {
       stepNum++
-      checkPage(30)
+      checkPage(35)
 
-      // Step title
+      // Horizontal rule between steps (skip before first step)
+      if (stepNum > 1) {
+        drawRule()
+        y += 2
+      }
+
+      const stepLabel = `${sectionNum}.${stepNum}`
+
+      // Draw the numbered badge circle
+      drawStepBadge(margin, y, stepLabel)
+
+      // Step title in bold next to badge
       doc.setFontSize(13)
-      doc.setTextColor(50)
+      doc.setTextColor(...darkGray)
       doc.setFont(undefined, 'bold')
-      doc.text(`Step ${sectionNum}.${stepNum}: ${step.title}`, margin, y)
-      y += 8
+      doc.text(step.title, margin + 12, y)
+      y += 10
 
       // Screenshots
       if (step.screenshots && step.screenshots.length > 0) {
@@ -106,14 +156,19 @@ export async function exportToPdf(guide) {
           if (imgDataUrl && imgDataUrl.startsWith('data:image')) {
             checkPage(80)
             try {
-              // Add image scaled to content width, maintain aspect ratio
               const imgProps = doc.getImageProperties(imgDataUrl)
-              const imgWidth = Math.min(contentWidth, imgProps.width * 0.264583) // px to mm approx
+              const imgWidth = Math.min(contentWidth, imgProps.width * 0.264583)
               const imgHeight = (imgWidth / imgProps.width) * imgProps.height
-              const finalHeight = Math.min(imgHeight, 120) // cap height
+              const finalHeight = Math.min(imgHeight, 120)
               const finalWidth = (finalHeight / imgHeight) * imgWidth
-              doc.addImage(imgDataUrl, 'PNG', margin, y, finalWidth > contentWidth ? contentWidth : finalWidth, finalHeight > 120 ? 120 : finalHeight)
-              y += (finalHeight > 120 ? 120 : finalHeight) + 5
+              const w = finalWidth > contentWidth ? contentWidth : finalWidth
+              const h = finalHeight > 120 ? 120 : finalHeight
+              // Light border around image
+              doc.setDrawColor(...ruleGray)
+              doc.setLineWidth(0.2)
+              doc.rect(margin, y, w, h)
+              doc.addImage(imgDataUrl, 'PNG', margin, y, w, h)
+              y += h + 6
             } catch (e) {
               // Skip bad images
             }
@@ -124,7 +179,7 @@ export async function exportToPdf(guide) {
       // Direction text
       if (step.directionHtml) {
         doc.setFontSize(11)
-        doc.setTextColor(60)
+        doc.setTextColor(...darkGray)
         doc.setFont(undefined, 'normal')
         const text = stripHtml(step.directionHtml)
         const lines = doc.splitTextToSize(text, contentWidth)
@@ -134,7 +189,7 @@ export async function exportToPdf(guide) {
           y += 6
         }
       }
-      y += 8
+      y += 6
     }
   }
 
@@ -144,6 +199,7 @@ export async function exportToPdf(guide) {
     doc.setPage(i)
     doc.setFontSize(8)
     doc.setTextColor(150)
+    doc.setFont(undefined, 'normal')
     doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' })
   }
 
